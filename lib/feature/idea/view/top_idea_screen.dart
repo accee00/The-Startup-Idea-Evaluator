@@ -50,16 +50,20 @@ class _TopIdeaScreenState extends State<TopIdeaScreen> {
                 );
               }
               if (state is FetchLeaderBoardSuccessState) {
+                final topIdeas = state.leaderBoard.take(5).toList();
                 return Expanded(
                   child: ListView.builder(
-                    padding: const EdgeInsets.all(16),
-                    itemCount: state.leaderBoard.length + 1,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 10,
+                    ).copyWith(bottom: 100),
+                    itemCount: topIdeas.length + 1,
                     itemBuilder: (context, index) {
                       if (index == 0) {
                         return _buildLeaderboardCard(context);
                       }
 
-                      final idea = state.leaderBoard[index - 1];
+                      final idea = topIdeas[index - 1];
 
                       return Card(
                         shape: RoundedRectangleBorder(
@@ -103,9 +107,7 @@ class _TopIdeaScreenState extends State<TopIdeaScreen> {
                                   ),
                                 ],
                               ),
-
                               const SizedBox(height: 6),
-
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -138,9 +140,7 @@ class _TopIdeaScreenState extends State<TopIdeaScreen> {
                                     ),
                                 ],
                               ),
-
                               const SizedBox(height: 10),
-
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,

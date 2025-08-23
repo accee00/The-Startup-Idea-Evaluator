@@ -127,6 +127,7 @@ class _AddIdeaScreenState extends State<AddIdeaScreen> {
                       return null;
                     },
                   ),
+
                   const SizedBox(height: 20),
                   Text('Category', style: context.textTheme.titleMedium),
                   const SizedBox(height: 8),
