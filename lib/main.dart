@@ -1,5 +1,8 @@
+import 'package:ai_voting_app/core/routes/app_routes.dart';
 import 'package:ai_voting_app/core/theme/app_theme.dart';
-import 'package:ai_voting_app/feature/idea/view/idea_screen.dart';
+
+import 'package:ai_voting_app/feature/auth/view/sign_up_screen.dart';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,8 +17,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: AppTheme.lightTheme,
-      home: IdeaScreen(),
+      initialRoute: AppRoutes.signUp,
+      onGenerateRoute: (settings) => AppRoutes.onGenerateRoute(settings),
+      theme: AppTheme.darkTheme,
     );
   }
 }

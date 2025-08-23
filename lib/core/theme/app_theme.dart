@@ -114,41 +114,236 @@ class AppTheme {
     'Blockchain': Color(0xFF0891B2), // Cyan
   };
 
+  // Text Theme Styles
+  static const TextTheme lightTextTheme = TextTheme(
+    displayLarge: TextStyle(
+      fontSize: 57,
+      fontWeight: FontWeight.w400,
+      color: textPrimary,
+      letterSpacing: -0.25,
+    ),
+    displayMedium: TextStyle(
+      fontSize: 45,
+      fontWeight: FontWeight.w400,
+      color: textPrimary,
+    ),
+    displaySmall: TextStyle(
+      fontSize: 36,
+      fontWeight: FontWeight.w400,
+      color: textPrimary,
+    ),
+    headlineLarge: TextStyle(
+      fontSize: 32,
+      fontWeight: FontWeight.w400,
+      color: textPrimary,
+    ),
+    headlineMedium: TextStyle(
+      fontSize: 28,
+      fontWeight: FontWeight.w400,
+      color: textPrimary,
+    ),
+    headlineSmall: TextStyle(
+      fontSize: 24,
+      fontWeight: FontWeight.w400,
+      color: textPrimary,
+    ),
+    titleLarge: TextStyle(
+      fontSize: 22,
+      fontWeight: FontWeight.w500,
+      color: textPrimary,
+    ),
+    titleMedium: TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w500,
+      color: textPrimary,
+      letterSpacing: 0.15,
+    ),
+    titleSmall: TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w500,
+      color: textPrimary,
+      letterSpacing: 0.1,
+    ),
+    bodyLarge: TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w400,
+
+      color: textPrimary,
+      letterSpacing: 0.5,
+    ),
+    bodyMedium: TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w400,
+      color: textPrimary,
+      letterSpacing: 0.25,
+    ),
+    bodySmall: TextStyle(
+      fontSize: 12,
+      fontWeight: FontWeight.w400,
+      color: textSecondary,
+      letterSpacing: 0.4,
+    ),
+    labelLarge: TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w500,
+      color: textPrimary,
+      letterSpacing: 0.1,
+    ),
+    labelMedium: TextStyle(
+      fontSize: 12,
+      fontWeight: FontWeight.w500,
+      color: textSecondary,
+      letterSpacing: 0.5,
+    ),
+    labelSmall: TextStyle(
+      fontSize: 11,
+      fontWeight: FontWeight.w500,
+      color: textLight,
+      letterSpacing: 0.5,
+    ),
+  );
+
+  static const TextTheme darkTextTheme = TextTheme(
+    displayLarge: TextStyle(
+      fontSize: 57,
+      fontWeight: FontWeight.w400,
+      color: darkTextPrimary,
+      letterSpacing: -0.25,
+    ),
+    displayMedium: TextStyle(
+      fontSize: 45,
+      fontWeight: FontWeight.w400,
+      color: darkTextPrimary,
+    ),
+    displaySmall: TextStyle(
+      fontSize: 36,
+      fontWeight: FontWeight.w400,
+      color: darkTextPrimary,
+    ),
+    headlineLarge: TextStyle(
+      fontSize: 32,
+      fontWeight: FontWeight.w400,
+      color: darkTextPrimary,
+    ),
+    headlineMedium: TextStyle(
+      fontSize: 28,
+      fontWeight: FontWeight.w400,
+      color: darkTextPrimary,
+    ),
+    headlineSmall: TextStyle(
+      fontSize: 24,
+      fontWeight: FontWeight.w400,
+      color: darkTextPrimary,
+    ),
+    titleLarge: TextStyle(
+      fontSize: 22,
+      fontWeight: FontWeight.w500,
+      color: darkTextPrimary,
+    ),
+    titleMedium: TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w500,
+      color: darkTextPrimary,
+      letterSpacing: 0.15,
+    ),
+    titleSmall: TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w500,
+      color: darkTextPrimary,
+      letterSpacing: 0.1,
+    ),
+    bodyLarge: TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w400,
+      color: darkTextPrimary,
+      letterSpacing: 0.5,
+    ),
+    bodyMedium: TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w400,
+      color: darkTextPrimary,
+      letterSpacing: 0.25,
+    ),
+    bodySmall: TextStyle(
+      fontSize: 12,
+      fontWeight: FontWeight.w400,
+      color: darkTextSecondary,
+      letterSpacing: 0.4,
+    ),
+    labelLarge: TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w500,
+      color: darkTextPrimary,
+      letterSpacing: 0.1,
+    ),
+    labelMedium: TextStyle(
+      fontSize: 12,
+      fontWeight: FontWeight.w500,
+      color: darkTextSecondary,
+      letterSpacing: 0.5,
+    ),
+    labelSmall: TextStyle(
+      fontSize: 11,
+      fontWeight: FontWeight.w500,
+      color: darkTextLight,
+      letterSpacing: 0.5,
+    ),
+  );
+
   // Create the light theme
   static ThemeData get lightTheme {
     return ThemeData(
-      useMaterial3: true,
       brightness: Brightness.light,
+      scaffoldBackgroundColor: backgroundLight,
 
-      // Color Scheme
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: primaryBlue,
+      colorScheme: const ColorScheme(
         brightness: Brightness.light,
         primary: primaryBlue,
-        secondary: primaryPurple,
-        surface: white,
-        surfaceBright: backgroundLight,
-        error: error,
         onPrimary: textOnPrimary,
+        primaryContainer: primaryBlueDark,
+        onPrimaryContainer: textOnPrimary,
+        secondary: primaryPurple,
         onSecondary: textOnPrimary,
-        onSurface: textPrimary,
-        onSurfaceVariant: textPrimary,
+        secondaryContainer: primaryDark,
+        onSecondaryContainer: textOnPrimary,
+        tertiary: yellow,
+        onTertiary: textPrimary,
+        tertiaryContainer: yellowLight,
+        onTertiaryContainer: textPrimary,
+        error: error,
         onError: textOnPrimary,
-        outlineVariant: starActive,
+        errorContainer: redLight,
+        onErrorContainer: textPrimary,
+        background: backgroundLight,
+        onBackground: textPrimary,
+        surface: white,
+        onSurface: textPrimary,
+        surfaceVariant: surfaceColor,
+        onSurfaceVariant: textSecondary,
+        outline: borderMedium,
+        outlineVariant: borderLight,
+        shadow: shadowMedium,
+        scrim: shadowLight,
+        inverseSurface: gray900,
+        onInverseSurface: white,
+        inversePrimary: primaryBlueDark,
+        surfaceTint: primaryBlue,
       ),
 
+      // Text Theme
+      textTheme: lightTextTheme,
+      primaryTextTheme: lightTextTheme,
+
       // App Bar Theme
-      appBarTheme: const AppBarTheme(
+      appBarTheme: AppBarTheme(
         backgroundColor: white,
         foregroundColor: textPrimary,
         elevation: 0,
         centerTitle: false,
-        titleTextStyle: TextStyle(
-          color: textPrimary,
-          fontSize: 18,
+        titleTextStyle: lightTextTheme.titleLarge!.copyWith(
           fontWeight: FontWeight.w600,
         ),
-        iconTheme: IconThemeData(color: textSecondary),
+        iconTheme: const IconThemeData(color: textSecondary),
       ),
 
       // Bottom Navigation Bar Theme
@@ -168,6 +363,7 @@ class AppTheme {
           elevation: 0,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+          textStyle: lightTextTheme.labelLarge,
         ),
       ),
 
@@ -176,6 +372,7 @@ class AppTheme {
         style: TextButton.styleFrom(
           foregroundColor: primaryBlue,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          textStyle: lightTextTheme.labelLarge,
         ),
       ),
 
@@ -204,75 +401,6 @@ class AppTheme {
           horizontal: 16,
         ),
       ),
-
-      // Text Theme
-      textTheme: const TextTheme(
-        displayLarge: TextStyle(
-          color: textPrimary,
-          fontSize: 32,
-          fontWeight: FontWeight.bold,
-        ),
-        displayMedium: TextStyle(
-          color: textPrimary,
-          fontSize: 28,
-          fontWeight: FontWeight.bold,
-        ),
-        displaySmall: TextStyle(
-          color: textPrimary,
-          fontSize: 24,
-          fontWeight: FontWeight.w600,
-        ),
-        headlineMedium: TextStyle(
-          color: textPrimary,
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-        ),
-        headlineSmall: TextStyle(
-          color: textPrimary,
-          fontSize: 18,
-          fontWeight: FontWeight.w600,
-        ),
-        titleLarge: TextStyle(
-          color: textPrimary,
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-        ),
-        titleMedium: TextStyle(
-          color: textPrimary,
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-        ),
-        bodyLarge: TextStyle(
-          color: textPrimary,
-          fontSize: 16,
-          fontWeight: FontWeight.normal,
-        ),
-        bodyMedium: TextStyle(
-          color: textPrimary,
-          fontSize: 14,
-          fontWeight: FontWeight.normal,
-        ),
-        bodySmall: TextStyle(
-          color: textSecondary,
-          fontSize: 12,
-          fontWeight: FontWeight.normal,
-        ),
-        labelLarge: TextStyle(
-          color: textPrimary,
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-        ),
-        labelMedium: TextStyle(
-          color: textSecondary,
-          fontSize: 12,
-          fontWeight: FontWeight.w500,
-        ),
-        labelSmall: TextStyle(
-          color: textLight,
-          fontSize: 10,
-          fontWeight: FontWeight.w500,
-        ),
-      ),
     );
   }
 
@@ -282,35 +410,55 @@ class AppTheme {
       useMaterial3: true,
       brightness: Brightness.dark,
 
-      // Color Scheme
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: primaryBlue,
+      // Color Scheme - Updated with explicit values
+      colorScheme: const ColorScheme(
         brightness: Brightness.dark,
         primary: primaryBlue,
-        secondary: primaryPurple,
-        surface: darkSurface,
-        background: darkBackground,
-        error: error,
         onPrimary: darkTextOnPrimary,
+        primaryContainer: primaryBlueDark,
+        onPrimaryContainer: darkTextOnPrimary,
+        secondary: primaryPurple,
         onSecondary: darkTextOnPrimary,
-        onSurface: darkTextPrimary,
-        onBackground: darkTextPrimary,
+        secondaryContainer: primaryDark,
+        onSecondaryContainer: darkTextOnPrimary,
+        tertiary: yellow,
+        onTertiary: darkTextPrimary,
+        tertiaryContainer: darkYellowLight,
+        onTertiaryContainer: darkTextPrimary,
+        error: error,
         onError: darkTextOnPrimary,
+        errorContainer: darkRedLight,
+        onErrorContainer: darkTextPrimary,
+        background: darkBackground,
+        onBackground: darkTextPrimary,
+        surface: darkSurface,
+        onSurface: darkTextPrimary,
+        surfaceVariant: darkCard,
+        onSurfaceVariant: darkTextSecondary,
         outline: darkBorder,
+        outlineVariant: darkBorder,
+        shadow: shadowMedium,
+        scrim: shadowLight,
+        inverseSurface: gray100,
+        onInverseSurface: gray900,
+        inversePrimary: primaryBlueDark,
+        surfaceTint: primaryBlue,
       ),
 
+      // Text Theme
+      textTheme: darkTextTheme,
+      primaryTextTheme: darkTextTheme,
+
       // App Bar Theme
-      appBarTheme: const AppBarTheme(
+      appBarTheme: AppBarTheme(
         backgroundColor: darkSurface,
         foregroundColor: darkTextPrimary,
         elevation: 0,
         centerTitle: false,
-        titleTextStyle: TextStyle(
-          color: darkTextPrimary,
-          fontSize: 18,
+        titleTextStyle: darkTextTheme.titleLarge!.copyWith(
           fontWeight: FontWeight.w600,
         ),
-        iconTheme: IconThemeData(color: darkTextSecondary),
+        iconTheme: const IconThemeData(color: darkTextSecondary),
       ),
 
       // Bottom Navigation Bar Theme
@@ -330,6 +478,7 @@ class AppTheme {
           elevation: 0,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+          textStyle: darkTextTheme.labelLarge,
         ),
       ),
 
@@ -338,6 +487,7 @@ class AppTheme {
         style: TextButton.styleFrom(
           foregroundColor: primaryBlue,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          textStyle: darkTextTheme.labelLarge,
         ),
       ),
 
@@ -365,77 +515,8 @@ class AppTheme {
           vertical: 12,
           horizontal: 16,
         ),
-        hintStyle: TextStyle(color: darkTextSecondary),
-        labelStyle: TextStyle(color: darkTextSecondary),
-      ),
-
-      // Text Theme
-      textTheme: const TextTheme(
-        displayLarge: TextStyle(
-          color: darkTextPrimary,
-          fontSize: 32,
-          fontWeight: FontWeight.bold,
-        ),
-        displayMedium: TextStyle(
-          color: darkTextPrimary,
-          fontSize: 28,
-          fontWeight: FontWeight.bold,
-        ),
-        displaySmall: TextStyle(
-          color: darkTextPrimary,
-          fontSize: 24,
-          fontWeight: FontWeight.w600,
-        ),
-        headlineMedium: TextStyle(
-          color: darkTextPrimary,
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-        ),
-        headlineSmall: TextStyle(
-          color: darkTextPrimary,
-          fontSize: 18,
-          fontWeight: FontWeight.w600,
-        ),
-        titleLarge: TextStyle(
-          color: darkTextPrimary,
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-        ),
-        titleMedium: TextStyle(
-          color: darkTextPrimary,
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-        ),
-        bodyLarge: TextStyle(
-          color: darkTextPrimary,
-          fontSize: 16,
-          fontWeight: FontWeight.normal,
-        ),
-        bodyMedium: TextStyle(
-          color: darkTextPrimary,
-          fontSize: 14,
-          fontWeight: FontWeight.normal,
-        ),
-        bodySmall: TextStyle(
-          color: darkTextSecondary,
-          fontSize: 12,
-          fontWeight: FontWeight.normal,
-        ),
-        labelLarge: TextStyle(
-          color: darkTextPrimary,
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-        ),
-        labelMedium: TextStyle(
-          color: darkTextSecondary,
-          fontSize: 12,
-          fontWeight: FontWeight.w500,
-        ),
-        labelSmall: TextStyle(
-          color: darkTextLight,
-          fontSize: 10,
-          fontWeight: FontWeight.w500,
-        ),
+        hintStyle: const TextStyle(color: darkTextSecondary),
+        labelStyle: const TextStyle(color: darkTextSecondary),
       ),
     );
   }
