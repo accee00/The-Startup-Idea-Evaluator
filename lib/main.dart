@@ -4,8 +4,10 @@ import 'package:ai_voting_app/core/routes/app_routes.dart';
 import 'package:ai_voting_app/core/theme/app_theme.dart';
 import 'package:ai_voting_app/feature/auth/cubit/auth_cubit.dart';
 import 'package:ai_voting_app/feature/idea/cubit/idea_cubit.dart';
+import 'package:ai_voting_app/feature/profile/cubit/profile_cubit.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -14,6 +16,9 @@ Future<void> main() async {
   await dotenv.load();
   await initDi();
   runApp(const MyApp());
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -28,6 +33,7 @@ class MyApp extends StatelessWidget {
           create: (_) => servicelocator<AuthCubit>()..getCurrentUser(),
         ),
         BlocProvider(create: (_) => servicelocator<IdeaCubit>()),
+        BlocProvider(create: (_) => servicelocator<ProfileCubit>()),
       ],
       child: BlocBuilder<AppBloc, AppState>(
         builder: (context, state) {

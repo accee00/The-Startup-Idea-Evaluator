@@ -13,6 +13,7 @@ class TopIdeaScreen extends StatefulWidget {
 }
 
 class _TopIdeaScreenState extends State<TopIdeaScreen> {
+  bool _expanded = false;
   @override
   void initState() {
     context.read<IdeaCubit>().fetchLeaderBoardd();
@@ -25,6 +26,7 @@ class _TopIdeaScreenState extends State<TopIdeaScreen> {
       backgroundColor: AppTheme.getBackgroundColor(context),
       appBar: const CustomAppBar(title: "Top Ideas", showBack: true),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           BlocBuilder<IdeaCubit, IdeaState>(
             builder: (context, state) {
@@ -77,7 +79,6 @@ class _TopIdeaScreenState extends State<TopIdeaScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // Rank medal
                               Row(
                                 children: [
                                   Text(
@@ -105,11 +106,37 @@ class _TopIdeaScreenState extends State<TopIdeaScreen> {
 
                               const SizedBox(height: 6),
 
-                              Text(
-                                idea.description,
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
-                                style: context.textTheme.bodyMedium?.copyWith(),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    idea.description,
+                                    style: context.textTheme.bodyLarge
+                                        ?.copyWith(height: 1.4, fontSize: 16),
+                                    maxLines: _expanded ? null : 3,
+                                    overflow: _expanded
+                                        ? TextOverflow.visible
+                                        : TextOverflow.ellipsis,
+                                  ),
+                                  if (idea.description.length > 150)
+                                    GestureDetector(
+                                      onTap: () => setState(
+                                        () => _expanded = !_expanded,
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(top: 4),
+                                        child: Text(
+                                          _expanded ? 'Show less' : 'Show more',
+                                          style: context.textTheme.bodyMedium
+                                              ?.copyWith(
+                                                color:
+                                                    context.colorScheme.primary,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                        ),
+                                      ),
+                                    ),
+                                ],
                               ),
 
                               const SizedBox(height: 10),
@@ -119,11 +146,11 @@ class _TopIdeaScreenState extends State<TopIdeaScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "⭐ Rating: ${idea.aiRating.toStringAsFixed(1)}",
+                                    "Rating: ${idea.aiRating.toStringAsFixed(1)}",
                                     style: context.textTheme.bodyMedium,
                                   ),
                                   Text(
-                                    "👍 Votes: ${idea.votes}",
+                                    "Votes: ${idea.votes}",
                                     style: context.textTheme.bodyMedium,
                                   ),
                                 ],

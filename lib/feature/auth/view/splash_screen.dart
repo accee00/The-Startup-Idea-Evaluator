@@ -1,4 +1,3 @@
-import 'package:ai_voting_app/core/bloc/app_bloc.dart';
 import 'package:ai_voting_app/core/routes/app_routes.dart';
 import 'package:ai_voting_app/feature/auth/cubit/auth_cubit.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,6 @@ class SplashScreen extends StatelessWidget {
       listener: (BuildContext context, AuthState state) {
         print(state.runtimeType);
         if (state is AuthUserState) {
-          context.read<AppBloc>().add(ToggleTheme());
           Navigator.pushReplacementNamed(context, AppRoutes.main);
         } else if (state is AuthSignedOut) {
           Navigator.pushReplacementNamed(context, AppRoutes.signIn);

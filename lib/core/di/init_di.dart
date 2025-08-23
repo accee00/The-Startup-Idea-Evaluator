@@ -20,28 +20,45 @@ Future<void> initDi() async {
   HydratedBloc.storage = storage;
 
   /// Hydrated Bloc initialization
-
   servicelocator.registerFactory(() => AppBloc());
 
+  /// Single instance of supabase client
   servicelocator.registerLazySingleton(() => supabase.client);
+
+  _initService();
+  _initCubit();
+}
+
+void _initService() {
+  /// Idea Service
+  servicelocator.registerLazySingleton(
+    () => IdeaService(servicelocator<SupabaseClient>()),
+  );
 
   /// Auth Service
   servicelocator.registerLazySingleton(
     () => AuthService(servicelocator<SupabaseClient>()),
   );
 
+  /// Profile Servie
+  servicelocator.registerLazySingleton(
+    () => ProfileService(servicelocator<SupabaseClient>()),
+  );
+}
+
+void _initCubit() {
   /// Auth Cubit
   servicelocator.registerFactory(
     () => AuthCubit(servicelocator<AuthService>()),
   );
 
-  /// Idea Service
-  servicelocator.registerLazySingleton(
-    () => IdeaService(servicelocator<SupabaseClient>()),
-  );
-
   /// Idea Cubit
   servicelocator.registerFactory(
     () => IdeaCubit(servicelocator<IdeaService>()),
+  );
+
+  /// Profile Cubit
+  servicelocator.registerFactory(
+    () => ProfileCubit(servicelocator<ProfileService>()),
   );
 }

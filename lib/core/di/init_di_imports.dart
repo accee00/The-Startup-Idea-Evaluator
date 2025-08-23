@@ -1,8 +1,10 @@
 import 'package:ai_voting_app/core/bloc/app_bloc.dart';
 import 'package:ai_voting_app/feature/auth/cubit/auth_cubit.dart';
 import 'package:ai_voting_app/feature/idea/cubit/idea_cubit.dart';
+import 'package:ai_voting_app/feature/profile/cubit/profile_cubit.dart';
 import 'package:ai_voting_app/service/auth_service.dart';
 import 'package:ai_voting_app/service/idea_service.dart';
+import 'package:ai_voting_app/service/profile_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';

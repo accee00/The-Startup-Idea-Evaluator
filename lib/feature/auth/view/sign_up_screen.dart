@@ -79,7 +79,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           });
           showSnackBar(context, state.message, SnackBarType.error);
         }
-        if (state is AuthUserState && state.fromSignIn) {
+        if (state is AuthUserState && state.fromSignUp) {
           setState(() {
             _isLoading = false;
           });

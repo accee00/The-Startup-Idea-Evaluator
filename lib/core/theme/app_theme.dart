@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AppTheme {
   // Primary Brand Colors
@@ -336,6 +337,7 @@ class AppTheme {
 
       // App Bar Theme
       appBarTheme: AppBarTheme(
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
         backgroundColor: white,
         foregroundColor: textPrimary,
         elevation: 0,
@@ -448,6 +450,7 @@ class AppTheme {
 
       // App Bar Theme
       appBarTheme: AppBarTheme(
+        systemOverlayStyle: SystemUiOverlayStyle.light,
         backgroundColor: darkSurface,
         foregroundColor: darkTextPrimary,
         elevation: 0,

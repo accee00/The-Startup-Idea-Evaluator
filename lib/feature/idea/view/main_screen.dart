@@ -1,4 +1,5 @@
 import 'package:ai_voting_app/core/extension%20/build_context_extension.dart';
+import 'package:ai_voting_app/feature/profile/view/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
@@ -21,7 +22,7 @@ class _MainScreenState extends State<MainScreen> {
     const IdeaScreen(),
     const AddIdeaScreen(),
     const TopIdeaScreen(),
-    const Text('Profile'),
+    const ProfileScreen(),
   ];
 
   @override
@@ -42,7 +43,7 @@ class _MainScreenState extends State<MainScreen> {
               BoxShadow(
                 color: isDark
                     ? Colors.black.withAlpha(100)
-                    : Colors.black.withAlpha(10),
+                    : Colors.black.withAlpha(40),
                 blurRadius: 20,
                 offset: const Offset(0, -5),
                 spreadRadius: 0,

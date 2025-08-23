@@ -10,16 +10,20 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.avatarText,
     this.onAvatarTap,
     super.key,
+    this.onModeChange,
   });
 
   final String title;
   final bool showBack;
   final String? avatarText;
   final VoidCallback? onAvatarTap;
+  final VoidCallback? onModeChange;
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return AppBar(
+      surfaceTintColor: Colors.transparent,
       leading: showBack
           ? IconButton(
               icon: Icon(
@@ -52,31 +56,38 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         preferredSize: const Size.fromHeight(1),
         child: Divider(color: context.colorScheme.onSurface.withAlpha(30)),
       ),
-      actions: avatarText != null
-          ? [
-              GestureDetector(
-                onTap: onAvatarTap,
-                child: Container(
-                  alignment: Alignment.center,
-                  height: 40,
-                  width: 40,
-                  margin: const EdgeInsets.only(right: 10),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: AppTheme.primaryLinearGradient,
-                  ),
-                  child: Text(
-                    avatarText ?? '',
-                    style: context.textTheme.bodyMedium?.copyWith(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+      actions: [
+        if (onModeChange != null)
+          IconButton(
+            onPressed: onModeChange,
+            icon: Icon(
+              isDarkMode ? Icons.wb_sunny : Icons.nightlight_round,
+              color: AppTheme.getTextPrimary(context),
+            ),
+          ),
+        if (avatarText != null)
+          GestureDetector(
+            onTap: onAvatarTap,
+            child: Container(
+              alignment: Alignment.center,
+              height: 40,
+              width: 40,
+              margin: const EdgeInsets.only(right: 10),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: AppTheme.primaryLinearGradient,
+              ),
+              child: Text(
+                avatarText ?? '',
+                style: context.textTheme.bodyMedium?.copyWith(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-            ]
-          : null,
+            ),
+          ),
+      ],
       backgroundColor: Colors.transparent,
     );
   }

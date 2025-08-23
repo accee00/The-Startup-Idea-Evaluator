@@ -47,8 +47,12 @@ class _IdeaScreenState extends State<IdeaScreen> {
             }
 
             return ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 15,
+                vertical: 10,
+              ).copyWith(bottom: 100),
               itemCount: state.ideas.length + 1,
+
               itemBuilder: (context, index) {
                 if (index == 0) {
                   return _addIdeaCard(context);
