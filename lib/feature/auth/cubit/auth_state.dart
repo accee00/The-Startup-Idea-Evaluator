@@ -21,10 +21,14 @@ class AuthSignedUp extends AuthState {
 
 class AuthUserState extends AuthState {
   final User user;
-  const AuthUserState(this.user);
+  final bool fromSignUp;
+  final bool fromSignIn;
 
-  @override
-  List<Object> get props => [user];
+  const AuthUserState(
+    this.user, {
+    this.fromSignUp = false,
+    this.fromSignIn = false,
+  });
 }
 
 class AuthError extends AuthState {

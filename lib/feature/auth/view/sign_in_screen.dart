@@ -55,13 +55,13 @@ class _SignInScreenState extends State<SignInScreen> {
           });
           showSnackBar(context, state.message, SnackBarType.error);
         }
-        if (state is AuthSignedUp) {
+        if (state is AuthUserState && state.fromSignIn) {
           setState(() {
             _isLoading = false;
           });
           showSnackBar(
             context,
-            'Welcome back, ${state.user!.appMetadata['name']}!',
+            'Welcome back, ${state.user.appMetadata['name']}!',
             SnackBarType.success,
           );
           Navigator.pushNamedAndRemoveUntil(

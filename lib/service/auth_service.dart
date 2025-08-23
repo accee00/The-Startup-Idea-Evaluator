@@ -12,10 +12,11 @@ class AuthService {
     required String name,
   }) async {
     try {
+      print('signup call');
       final AuthResponse response = await client.auth.signUp(
         email: email,
         password: password,
-        data: {'email': email, 'name': name},
+        data: {'name': name},
       );
       if (response.user != null) {
         return right(response.user);

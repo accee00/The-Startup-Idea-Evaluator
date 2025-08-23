@@ -1,16 +1,17 @@
 import 'dart:ui';
 
+import 'package:ai_voting_app/core/di/init_di_imports.dart';
 import 'package:ai_voting_app/core/extension%20/build_context_extension.dart';
 import 'package:ai_voting_app/core/theme/app_theme.dart';
 import 'package:ai_voting_app/feature/idea/model/startup_idea_model.dart';
+import 'package:ai_voting_app/service/idea_service.dart';
 import 'package:flutter/material.dart';
 
-class StartupIdeaCard extends StatelessWidget {
+class StartupIdeaCard extends StatefulWidget {
   final StartupIdeaModel idea;
   final bool showRanking;
   final int? rank;
   final VoidCallback? onVote;
-  final VoidCallback? onComment;
   final VoidCallback? onShare;
 
   const StartupIdeaCard({
@@ -19,12 +20,75 @@ class StartupIdeaCard extends StatelessWidget {
     this.showRanking = false,
     this.rank,
     this.onVote,
-    this.onComment,
     this.onShare,
   });
 
   @override
+  State<StartupIdeaCard> createState() => _StartupIdeaCardState();
+}
+
+class _StartupIdeaCardState extends State<StartupIdeaCard> {
+  bool _expanded = false;
+  bool? _hasVoted;
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkVoteStatus();
+  }
+
+  // Check vote status asynchronously
+  Future<void> _checkVoteStatus() async {
+    try {
+      final hasVoted = await servicelocator<IdeaService>().hasUserVoted(
+        ideaId: widget.idea.id!,
+      );
+      if (mounted) {
+        setState(() {
+          _hasVoted = hasVoted;
+        });
+      }
+    } catch (e) {
+      // Handle error - fallback to idea.hasVoted
+      if (mounted) {
+        setState(() {
+          _hasVoted = widget.idea.hasVoted;
+        });
+      }
+    }
+  }
+
+  // Handle vote tap with loading state
+  Future<void> _onVoteTap() async {
+    if (_isLoading) return; // Prevent multiple taps
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      // Call the parent callback
+      widget.onVote?.call();
+
+      // Update local state optimistically
+      setState(() {
+        _hasVoted = !(_hasVoted ?? false);
+      });
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final idea = widget.idea;
+    final isVoted = _hasVoted ?? idea.hasVoted;
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
@@ -41,7 +105,6 @@ class StartupIdeaCard extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Category Icon and Title
                 Expanded(
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,29 +124,29 @@ class StartupIdeaCard extends StatelessWidget {
                           children: [
                             Text(
                               idea.title,
-                              style: context.textTheme.labelLarge,
+                              style: context.textTheme.titleLarge?.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                             const SizedBox(height: 4),
 
                             Wrap(
                               children: [
                                 Text(
-                                  idea.author,
-                                  style: context.textTheme.bodySmall,
+                                  idea.authorName ?? 'Anonymous',
+                                  style: context.textTheme.bodyMedium,
                                 ),
                                 Text(' • ', style: context.textTheme.bodySmall),
                                 Text(
-                                  _formatTimeAgo(idea.timestamp),
-                                  style: context.textTheme.bodySmall,
+                                  _formatTimeAgo(idea.createdAt),
+                                  style: context.textTheme.bodyMedium,
                                 ),
 
-                                if (showRanking && rank != null) ...[
-                                  const Text(
+                                if (widget.showRanking &&
+                                    widget.rank != null) ...[
+                                  Text(
                                     ' • ',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Color(0xFF6B7280), // gray-500
-                                    ),
+                                    style: context.textTheme.bodyMedium,
                                   ),
                                   Row(
                                     mainAxisSize: MainAxisSize.min,
@@ -91,14 +154,14 @@ class StartupIdeaCard extends StatelessWidget {
                                       const Icon(
                                         Icons.emoji_events,
                                         size: 12,
-                                        color: Color(0xFFFBBF24), // yellow-400
+                                        color: Color(0xFFFBBF24),
                                       ),
                                       const SizedBox(width: 4),
                                       Text(
-                                        '#$rank',
+                                        '#${widget.rank}',
                                         style: const TextStyle(
                                           fontSize: 12,
-                                          color: Color(0xFF6B7280), // gray-500
+                                          color: Color(0xFF6B7280),
                                         ),
                                       ),
                                     ],
@@ -121,7 +184,7 @@ class StartupIdeaCard extends StatelessWidget {
                       children: [
                         Icon(
                           Icons.star,
-                          size: 12,
+                          size: 24,
                           color: context.colorScheme.tertiary,
                         ),
                         const SizedBox(width: 4),
@@ -132,7 +195,7 @@ class StartupIdeaCard extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 2),
-                    Text('AI Score', style: context.textTheme.bodySmall),
+                    Text('AI Score', style: context.textTheme.bodyMedium),
                   ],
                 ),
               ],
@@ -140,8 +203,37 @@ class StartupIdeaCard extends StatelessWidget {
 
             const SizedBox(height: 12),
 
-            // desc
-            Text(idea.description, style: context.textTheme.bodyLarge),
+            // desc with show more
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  idea.description,
+                  style: context.textTheme.bodyLarge?.copyWith(
+                    height: 1.4,
+                    fontSize: 16,
+                  ),
+                  maxLines: _expanded ? null : 5,
+                  overflow: _expanded
+                      ? TextOverflow.visible
+                      : TextOverflow.ellipsis,
+                ),
+                if (idea.description.length > 150)
+                  GestureDetector(
+                    onTap: () => setState(() => _expanded = !_expanded),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 4),
+                      child: Text(
+                        _expanded ? 'Show less' : 'Show more',
+                        style: context.textTheme.bodyMedium?.copyWith(
+                          color: context.colorScheme.primary,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
 
             const SizedBox(height: 12),
 
@@ -153,29 +245,25 @@ class StartupIdeaCard extends StatelessWidget {
 
             const SizedBox(height: 12),
 
-            // Action Row
             Row(
               children: [
-                // Vote Button
                 Expanded(
                   child: Row(
                     children: [
                       _buildActionButton(
                         context: context,
-                        icon: idea.hasVoted
-                            ? Icons.favorite
-                            : Icons.favorite_border,
+                        icon: isVoted ? Icons.favorite : Icons.favorite_border,
                         label: idea.votes.toString(),
-                        isActive: idea.hasVoted,
-                        activeColor: AppTheme.error, // Use theme error color
-                        onTap: onVote,
+                        isActive: isVoted,
+                        activeColor: AppTheme.error,
+                        onTap: _onVoteTap,
+                        isLoading: _isLoading,
                       ),
                       const SizedBox(width: 16),
                     ],
                   ),
                 ),
 
-                // Share Button
                 _buildShareButton(context),
               ],
             ),
@@ -192,36 +280,74 @@ class StartupIdeaCard extends StatelessWidget {
     Color? activeColor,
     VoidCallback? onTap,
     required BuildContext context,
+    bool isLoading = false,
   }) {
     return GestureDetector(
-      onTap: onTap,
-      child: Container(
+      onTap: isLoading ? null : onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeInOut,
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
           color: isActive
-              ? (activeColor ?? context.colorScheme.primary).withAlpha(100)
+              ? (activeColor ?? AppTheme.error).withAlpha(30)
               : context.colorScheme.surface.withAlpha(100),
           borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: isActive
+                ? (activeColor ?? AppTheme.error).withAlpha(100)
+                : Colors.transparent,
+            width: 1,
+          ),
+          boxShadow: isActive
+              ? [
+                  BoxShadow(
+                    color: (activeColor ?? AppTheme.error).withAlpha(50),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ]
+              : null,
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              icon,
-              size: 16,
-              color: isActive
-                  ? (activeColor ?? context.colorScheme.primary)
-                  : context.colorScheme.onSurfaceVariant,
-            ),
+            if (isLoading)
+              SizedBox(
+                width: 16,
+                height: 16,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    isActive
+                        ? (activeColor ?? AppTheme.error)
+                        : context.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              )
+            else
+              AnimatedScale(
+                scale: isActive ? 1.1 : 1.0,
+                duration: const Duration(milliseconds: 200),
+                child: Icon(
+                  icon,
+                  size: 16,
+                  color: isActive
+                      ? (activeColor ?? AppTheme.error)
+                      : context.colorScheme.onSurfaceVariant,
+                ),
+              ),
             const SizedBox(width: 4),
-            Text(
-              label,
+            AnimatedDefaultTextStyle(
+              duration: const Duration(milliseconds: 200),
               style: TextStyle(
                 fontSize: 14,
+                fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
                 color: isActive
-                    ? (activeColor ?? context.colorScheme.primary)
+                    ? (activeColor ?? AppTheme.error)
                     : context.colorScheme.onSurfaceVariant,
               ),
+              child: Text(label),
             ),
           ],
         ),
@@ -231,7 +357,7 @@ class StartupIdeaCard extends StatelessWidget {
 
   Widget _buildShareButton(BuildContext context) {
     return GestureDetector(
-      onTap: onShare,
+      onTap: widget.onShare,
       child: Container(
         padding: const EdgeInsets.all(6),
         decoration: BoxDecoration(
@@ -265,9 +391,13 @@ class StartupIdeaCard extends StatelessWidget {
     final diff = DateTime.now().difference(timestamp);
 
     if (diff.inDays > 0) {
-      return '${diff.inDays}d ago';
+      final hours = diff.inHours % 24;
+      return '${diff.inDays}d ${hours}h ago';
     } else if (diff.inHours > 0) {
-      return '${diff.inHours}h ago';
+      final minutes = diff.inMinutes % 60;
+      return '${diff.inHours}h ${minutes}m ago';
+    } else if (diff.inMinutes > 0) {
+      return '${diff.inMinutes}m ago';
     } else {
       return 'Just now';
     }

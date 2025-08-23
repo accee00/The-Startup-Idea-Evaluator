@@ -3,6 +3,7 @@ import 'package:ai_voting_app/core/di/init_di_imports.dart';
 import 'package:ai_voting_app/core/routes/app_routes.dart';
 import 'package:ai_voting_app/core/theme/app_theme.dart';
 import 'package:ai_voting_app/feature/auth/cubit/auth_cubit.dart';
+import 'package:ai_voting_app/feature/idea/cubit/idea_cubit.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => servicelocator<AuthCubit>()..getCurrentUser(),
         ),
+        BlocProvider(create: (_) => servicelocator<IdeaCubit>()),
       ],
       child: BlocBuilder<AppBloc, AppState>(
         builder: (context, state) {

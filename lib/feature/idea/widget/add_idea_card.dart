@@ -15,7 +15,6 @@ class AddIdeaCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 80,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         gradient: AppTheme.primaryLinearGradient,
@@ -32,17 +31,17 @@ class AddIdeaCard extends StatelessWidget {
                 children: [
                   Text(
                     heading,
-                    style: context.textTheme.bodyLarge?.copyWith(
+                    style: context.textTheme.titleLarge?.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                   Text(
                     subHeading,
-                    style: context.textTheme.bodyMedium?.copyWith(
+                    style: context.textTheme.titleMedium?.copyWith(
                       color: Colors.white.withAlpha(200),
                       fontWeight: FontWeight.w400,
-                      fontSize: 12,
+                      fontSize: 14,
                     ),
                   ),
                 ],

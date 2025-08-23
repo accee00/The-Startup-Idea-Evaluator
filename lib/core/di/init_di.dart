@@ -34,4 +34,14 @@ Future<void> initDi() async {
   servicelocator.registerFactory(
     () => AuthCubit(servicelocator<AuthService>()),
   );
+
+  /// Idea Service
+  servicelocator.registerLazySingleton(
+    () => IdeaService(servicelocator<SupabaseClient>()),
+  );
+
+  /// Idea Cubit
+  servicelocator.registerFactory(
+    () => IdeaCubit(servicelocator<IdeaService>()),
+  );
 }
