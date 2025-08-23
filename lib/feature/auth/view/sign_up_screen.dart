@@ -1,11 +1,13 @@
 import 'package:ai_voting_app/core/extension%20/build_context_extension.dart';
 import 'package:ai_voting_app/core/routes/app_routes.dart';
 import 'package:ai_voting_app/core/utils/custom_snackbar.dart';
+import 'package:ai_voting_app/feature/auth/cubit/auth_cubit.dart';
 import 'package:ai_voting_app/feature/auth/widget/custom_elv_button.dart';
 import 'package:ai_voting_app/feature/auth/widget/text_button.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ai_voting_app/core/widgets/custom_input_feild.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -35,20 +37,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
         );
         return;
       }
-
-      setState(() => _isLoading = true);
-
-      // Simulate API call
-      await Future.delayed(const Duration(seconds: 2));
-
-      if (mounted) {
-        setState(() => _isLoading = false);
-        showSnackBar(
-          context,
-          'Account created successfully! Welcome, ${_nameController.text}.',
-          SnackBarType.success,
-        );
-      }
+      context.read<AuthCubit>().signUp(
+        name: _nameController.text.trim(),
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
     }
   }
 
@@ -73,27 +66,57 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Column(
-              children: [
-                const SizedBox(height: 40),
+    return BlocListener<AuthCubit, AuthState>(
+      listener: (BuildContext context, AuthState state) {
+        if (state is AuthLoading) {
+          setState(() {
+            _isLoading = true;
+          });
+        }
+        if (state is AuthError) {
+          setState(() {
+            _isLoading = false;
+          });
+          showSnackBar(context, state.message, SnackBarType.error);
+        }
+        if (state is AuthSignedUp) {
+          setState(() {
+            _isLoading = false;
+          });
+          showSnackBar(
+            context,
+            'Account created successfully',
+            SnackBarType.success,
+          );
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            AppRoutes.main,
+            (route) => false,
+          );
+        }
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Column(
+                children: [
+                  const SizedBox(height: 40),
 
-                _logoAndTitle(context),
+                  _logoAndTitle(context),
 
-                const SizedBox(height: 48),
+                  const SizedBox(height: 48),
 
-                _dataForm(context),
+                  _dataForm(context),
 
-                const SizedBox(height: 32),
+                  const SizedBox(height: 32),
 
-                _signInRow(context),
+                  _signInRow(context),
 
-                const SizedBox(height: 32),
-              ],
+                  const SizedBox(height: 32),
+                ],
+              ),
             ),
           ),
         ),

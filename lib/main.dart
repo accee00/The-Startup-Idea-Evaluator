@@ -1,12 +1,17 @@
+import 'package:ai_voting_app/core/bloc/app_bloc.dart';
+import 'package:ai_voting_app/core/di/init_di_imports.dart';
 import 'package:ai_voting_app/core/routes/app_routes.dart';
 import 'package:ai_voting_app/core/theme/app_theme.dart';
-
-import 'package:ai_voting_app/feature/auth/view/sign_up_screen.dart';
+import 'package:ai_voting_app/feature/auth/cubit/auth_cubit.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load();
+  await initDi();
   runApp(const MyApp());
 }
 
@@ -15,11 +20,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      initialRoute: AppRoutes.signUp,
-      onGenerateRoute: (settings) => AppRoutes.onGenerateRoute(settings),
-      theme: AppTheme.darkTheme,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => servicelocator<AppBloc>()),
+        BlocProvider(
+          create: (_) => servicelocator<AuthCubit>()..getCurrentUser(),
+        ),
+      ],
+      child: BlocBuilder<AppBloc, AppState>(
+        builder: (context, state) {
+          return MaterialApp(
+            title: 'Startup Idea Evaluator',
+            initialRoute: AppRoutes.splash,
+            onGenerateRoute: (settings) => AppRoutes.onGenerateRoute(settings),
+            theme: AppTheme.lightTheme,
+            darkTheme: AppTheme.darkTheme,
+            themeMode: state.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+          );
+        },
+      ),
     );
   }
 }

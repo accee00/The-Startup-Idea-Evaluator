@@ -150,6 +150,7 @@ class _AddIdeaScreenState extends State<AddIdeaScreen> {
 
   Container _expContainer(BuildContext context) {
     return Container(
+      width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         color: AppTheme.getAccentColor(context, 'blue'),
@@ -168,8 +169,8 @@ class _AddIdeaScreenState extends State<AddIdeaScreen> {
           ),
           const SizedBox(height: 10),
           Text(
-            'Our AI will analyze your idea and provide instant\nfeedback on market potential, innovation, and feasibility!',
-            textAlign: TextAlign.justify,
+            'Our AI will analyze your idea and provide instant feedback on market potential, innovation, and feasibility!',
+
             style: context.textTheme.bodySmall?.copyWith(
               color: context.colorScheme.primary.withAlpha(200),
             ),

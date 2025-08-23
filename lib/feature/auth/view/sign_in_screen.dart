@@ -1,11 +1,14 @@
 import 'package:ai_voting_app/core/extension%20/build_context_extension.dart';
 import 'package:ai_voting_app/core/routes/app_routes.dart';
 import 'package:ai_voting_app/core/theme/app_theme.dart';
+import 'package:ai_voting_app/core/utils/custom_snackbar.dart';
+import 'package:ai_voting_app/feature/auth/cubit/auth_cubit.dart';
 import 'package:ai_voting_app/feature/auth/widget/custom_elv_button.dart';
 import 'package:ai_voting_app/feature/auth/widget/text_button.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ai_voting_app/core/widgets/custom_input_feild.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -23,20 +26,10 @@ class _SignInScreenState extends State<SignInScreen> {
 
   void _onSignIn() async {
     if (_formKey.currentState?.validate() ?? false) {
-      setState(() => _isLoading = true);
-
-      // Simulate API call
-      await Future.delayed(const Duration(seconds: 2));
-
-      if (mounted) {
-        setState(() => _isLoading = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text("Welcome back, ${_emailController.text}!"),
-            backgroundColor: Theme.of(context).colorScheme.primary,
-          ),
-        );
-      }
+      context.read<AuthCubit>().signIn(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
     }
   }
 
@@ -49,43 +42,73 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Column(
-              children: [
-                const SizedBox(height: 60),
+    return BlocListener<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state is AuthLoading) {
+          setState(() {
+            _isLoading = true;
+          });
+        }
+        if (state is AuthError) {
+          setState(() {
+            _isLoading = false;
+          });
+          showSnackBar(context, state.message, SnackBarType.error);
+        }
+        if (state is AuthSignedUp) {
+          setState(() {
+            _isLoading = false;
+          });
+          showSnackBar(
+            context,
+            'Welcome back, ${state.user!.appMetadata['name']}!',
+            SnackBarType.success,
+          );
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            AppRoutes.main,
+            (route) => false,
+          );
+        }
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Column(
+                children: [
+                  const SizedBox(height: 60),
 
-                _logoAndTitle(context),
+                  _logoAndTitle(context),
 
-                const SizedBox(height: 32),
+                  const SizedBox(height: 32),
 
-                Text(
-                  'Welcome Back!',
-                  style: context.textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
+                  Text(
+                    'Welcome Back!',
+                    style: context.textTheme.headlineMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Sign in to continue voting',
-                  style: context.textTheme.bodyLarge?.copyWith(
-                    color: context.colorScheme.onSurface.withAlpha(120),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Sign in to continue voting',
+                    style: context.textTheme.bodyLarge?.copyWith(
+                      color: context.colorScheme.onSurface.withAlpha(120),
+                    ),
                   ),
-                ),
 
-                const SizedBox(height: 48),
+                  const SizedBox(height: 48),
 
-                _dataForm(context),
+                  _dataForm(context),
 
-                const SizedBox(height: 32),
+                  const SizedBox(height: 32),
 
-                _signUpRow(context),
+                  _signUpRow(context),
 
-                const SizedBox(height: 32),
-              ],
+                  const SizedBox(height: 32),
+                ],
+              ),
             ),
           ),
         ),

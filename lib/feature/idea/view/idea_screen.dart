@@ -1,6 +1,6 @@
 import 'package:ai_voting_app/core/constants/app_text.dart';
 
-import 'package:ai_voting_app/feature/idea/model/idea_model.dart';
+import 'package:ai_voting_app/feature/idea/model/startup_idea_model.dart';
 import 'package:ai_voting_app/feature/idea/view/add_idea.dart';
 
 import 'package:ai_voting_app/feature/idea/widget/add_idea_card.dart';
@@ -14,7 +14,7 @@ class IdeaScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final idea = StartupIdea(
+    final idea = StartupIdeaModel(
       id: 1,
       title: "AI-Powered Pet Translator",
       description:
@@ -23,7 +23,7 @@ class IdeaScreen extends StatelessWidget {
       author: "Sarah J.",
       aiRating: 8.2,
       votes: 234,
-      comments: 45,
+
       hasVoted: false,
       timestamp: DateTime.now().subtract(const Duration(days: 1)),
     );

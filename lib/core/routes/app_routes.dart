@@ -1,11 +1,13 @@
 import 'package:ai_voting_app/feature/auth/view/sign_in_screen.dart';
 import 'package:ai_voting_app/feature/auth/view/sign_up_screen.dart';
+import 'package:ai_voting_app/feature/auth/view/splash_screen.dart';
 import 'package:ai_voting_app/feature/idea/view/add_idea.dart';
 import 'package:ai_voting_app/feature/idea/view/idea_screen.dart';
 import 'package:ai_voting_app/feature/idea/view/main_screen.dart';
 import 'package:flutter/material.dart';
 
 class AppRoutes {
+  static const String splash = '/';
   static const String signIn = '/sign-in';
   static const String signUp = '/sign-up';
   static const String main = '/main';
@@ -16,6 +18,8 @@ class AppRoutes {
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case splash:
+        return MaterialPageRoute(builder: (_) => const SplashScreen());
       case signIn:
         return MaterialPageRoute(builder: (_) => const SignInScreen());
       case signUp:

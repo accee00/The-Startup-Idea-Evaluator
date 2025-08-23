@@ -2,11 +2,11 @@ import 'dart:ui';
 
 import 'package:ai_voting_app/core/extension%20/build_context_extension.dart';
 import 'package:ai_voting_app/core/theme/app_theme.dart';
-import 'package:ai_voting_app/feature/idea/model/idea_model.dart';
+import 'package:ai_voting_app/feature/idea/model/startup_idea_model.dart';
 import 'package:flutter/material.dart';
 
 class StartupIdeaCard extends StatelessWidget {
-  final StartupIdea idea;
+  final StartupIdeaModel idea;
   final bool showRanking;
   final int? rank;
   final VoidCallback? onVote;
@@ -171,15 +171,6 @@ class StartupIdeaCard extends StatelessWidget {
                         onTap: onVote,
                       ),
                       const SizedBox(width: 16),
-
-                      // Comment Button
-                      _buildActionButton(
-                        context: context,
-                        icon: Icons.chat_bubble_outline,
-                        label: idea.comments.toString(),
-                        isActive: false,
-                        onTap: onComment,
-                      ),
                     ],
                   ),
                 ),
