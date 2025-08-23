@@ -22,6 +22,7 @@ class _TopIdeaScreenState extends State<TopIdeaScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppTheme.getBackgroundColor(context),
       appBar: const CustomAppBar(title: "Top Ideas", showBack: true),
       body: Column(
         children: [

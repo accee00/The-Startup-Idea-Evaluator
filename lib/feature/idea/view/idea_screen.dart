@@ -1,5 +1,6 @@
 import 'package:ai_voting_app/core/constants/app_text.dart';
 import 'package:ai_voting_app/core/routes/app_routes.dart';
+import 'package:ai_voting_app/core/theme/app_theme.dart';
 import 'package:ai_voting_app/feature/auth/cubit/auth_cubit.dart';
 import 'package:ai_voting_app/feature/idea/cubit/idea_cubit.dart';
 import 'package:ai_voting_app/feature/idea/widget/add_idea_card.dart';
@@ -30,6 +31,7 @@ class _IdeaScreenState extends State<IdeaScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppTheme.getBackgroundColor(context),
       appBar: CustomAppBar(title: 'Startup Ideas', avatarText: avatarText),
       body: SafeArea(
         child: BlocBuilder<IdeaCubit, IdeaState>(

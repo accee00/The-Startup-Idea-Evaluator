@@ -43,6 +43,7 @@ dependencies:
   bloc: ^9.0.0
   hydrated_bloc: ^10.1.1
   path_provider: ^2.1.5
+  google_nav_bar: ^5.0.7
   
 
 dev_dependencies:
