@@ -1,16 +1,28 @@
-# ai_voting_app
+# The Startup Idea Evaluator
+**For more detail please check out this Notion doc- https://www.notion.so/The-Startup-Idea-Evaluator-259699fa5f3b8082a91cc22fe63c782e?source=copy_link **
+## App Description
+The Startup Idea Evaluator is a mobile application that allows users to submit their startup ideas, receive AI-generated feedback, vote on other users’ ideas, and see a leaderboard of top-rated ideas. 
 
-A new Flutter project.
+## Tech Stack Used
+- **Frontend:** Flutter  
+- **Backend:** Supabase (PostgreSQL, Auth, Storage)  
+- **State Management:** BLoC / Cubit  
+- **Dependency Injection:** GetIt  
+ 
 
-## Getting Started
+## Features Implemented
+- User authentication (Sign Up / Login)  
+- Submit new startup ideas  
+- AI-generated feedback and ratings on ideas  
+- Vote and unvote on ideas  
+- Top ideas leaderboard  
+- Share ideas via clipboard  
+- Responsive UI for mobile devices  
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## How to Run Locally
+1. **Clone the repository:**  
+```bash
+git clone https://github.com/accee00/The-Startup-Idea-Evaluator.git
+cd  StartupIdeaEvaluator
+flutter pub get
+flutter run
