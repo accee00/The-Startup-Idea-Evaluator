@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 class StartupIdeaModel extends Equatable {
   final String? id;
   final String title;
+  final String tagline;
   final String description;
   final String category;
   final String? authorId;
@@ -15,6 +16,7 @@ class StartupIdeaModel extends Equatable {
   const StartupIdeaModel({
     this.id,
     required this.title,
+    required this.tagline,
     required this.description,
     required this.category,
     this.authorId,
@@ -46,6 +48,7 @@ class StartupIdeaModel extends Equatable {
       'id': id,
       'title': title,
       'description': description,
+      'tagline': tagline,
       'category': category,
       'author': authorId,
       'ai_rating': aiRating,
@@ -61,6 +64,7 @@ class StartupIdeaModel extends Equatable {
     return StartupIdeaModel(
       id: map['id']?.toString() ?? '',
       title: map['title']?.toString() ?? '',
+      tagline: map['tagline']?.toString() ?? '',
       description: map['description']?.toString() ?? '',
       category: map['category']?.toString() ?? '',
       authorId: map['author']?.toString() ?? '',
@@ -81,6 +85,7 @@ class StartupIdeaModel extends Equatable {
     String? id,
     String? title,
     String? description,
+    String? tagline,
     String? category,
     String? authorId,
     double? aiRating,
@@ -93,6 +98,7 @@ class StartupIdeaModel extends Equatable {
     return StartupIdeaModel(
       id: id ?? this.id,
       title: title ?? this.title,
+      tagline: tagline ?? this.tagline,
       authorName: authorName ?? this.authorName,
       description: description ?? this.description,
       category: category ?? this.category,

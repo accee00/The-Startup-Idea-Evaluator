@@ -49,7 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   _buildProfileHeader(context),
                   const SizedBox(height: 32),
 
-                  _buildStats(context, data),
+                  _buildStatsList(context, data),
                   const SizedBox(height: 32),
 
                   SizedBox(
@@ -65,7 +65,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         const SizedBox(height: 20),
 
-                        // Show empty state when no ideas, otherwise show the list
                         data.myIdeas.isEmpty
                             ? _emptyState(context)
                             : _buildIdeasList(context, data),
@@ -118,6 +117,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  if (idea.tagline.isNotEmpty == true) ...[
+                    const SizedBox(height: 4),
+                    Text(
+                      idea.tagline,
+                      style: context.textTheme.bodyLarge?.copyWith(
+                        color: context.colorScheme.primary,
+                      ),
+                    ),
+                  ],
+
                   const SizedBox(height: 6),
                   Text(
                     idea.description,
@@ -199,29 +208,97 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Row _buildStats(BuildContext context, ProfileModel data) {
-    return Row(
-      children: [
-        Expanded(
-          child: _buildStatCard(
+  Widget _buildStatsList(BuildContext context, ProfileModel data) {
+    return Container(
+      decoration: BoxDecoration(
+        color: context.colorScheme.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: context.colorScheme.outline.withAlpha(100)),
+      ),
+      child: Column(
+        children: [
+          _buildStatItem(
             context: context,
-            number: data.ideadSubmitted,
-            label: 'Ideas Submitted',
-            color: context.colorScheme.onPrimaryContainer,
+            icon: Icons.lightbulb,
+            title: 'Ideas Submitted',
+            value: data.ideadSubmitted,
+            color: context.colorScheme.primary,
             backgroundColor: context.colorScheme.primaryContainer,
           ),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: _buildStatCard(
+          Divider(height: 1, color: context.colorScheme.outline.withAlpha(100)),
+          _buildStatItem(
             context: context,
-            number: data.votesGiven,
-            label: 'Votes Given',
-            color: context.colorScheme.onPrimaryContainer,
+            icon: Icons.thumb_up,
+            title: 'Votes Given',
+            value: data.votesGiven,
+            color: context.colorScheme.secondary,
             backgroundColor: context.colorScheme.secondaryContainer,
           ),
-        ),
-      ],
+          Divider(height: 1, color: context.colorScheme.outline.withAlpha(100)),
+          _buildStatItem(
+            context: context,
+            icon: Icons.favorite,
+            title: 'Votes Received',
+            value: data.votesReceived,
+            color: context.colorScheme.primary,
+            backgroundColor: context.colorScheme.primaryContainer,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatItem({
+    required BuildContext context,
+    required IconData icon,
+    required String title,
+    required String value,
+    required Color color,
+    required Color backgroundColor,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: backgroundColor,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(icon, color: Colors.white60, size: 24),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: context.textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.w500,
+                    color: context.colorScheme.onSurface,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  'Total count',
+                  style: context.textTheme.bodySmall?.copyWith(
+                    color: context.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Text(
+            value,
+            style: context.textTheme.headlineMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -265,44 +342,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildStatCard({
-    required BuildContext context,
-    required String number,
-    required String label,
-    required Color color,
-    required Color backgroundColor,
-  }) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.colorScheme.outline.withAlpha(100)),
-      ),
-      child: Column(
-        children: [
-          Text(
-            number,
-            style: context.textTheme.headlineLarge?.copyWith(
-              color: color,
-              fontWeight: FontWeight.bold,
-              fontSize: 36,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            label,
-            style: context.textTheme.bodyMedium?.copyWith(
-              color: context.colorScheme.onPrimaryContainer,
-              fontWeight: FontWeight.w500,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
     );
   }
 }

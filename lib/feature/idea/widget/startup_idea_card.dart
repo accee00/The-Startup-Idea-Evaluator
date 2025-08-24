@@ -128,6 +128,17 @@ class _StartupIdeaCardState extends State<StartupIdeaCard> {
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
+
+                            if (idea.tagline.isNotEmpty == true) ...[
+                              const SizedBox(height: 4),
+                              Text(
+                                idea.tagline,
+                                style: context.textTheme.bodyLarge?.copyWith(
+                                  color: context.colorScheme.primary,
+                                ),
+                              ),
+                            ],
+
                             const SizedBox(height: 4),
 
                             Wrap(

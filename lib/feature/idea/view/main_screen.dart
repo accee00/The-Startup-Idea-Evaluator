@@ -30,6 +30,7 @@ class _MainScreenState extends State<MainScreen> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: AppTheme.getBackgroundColor(context),
       body: _screens[_currentIndex],
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

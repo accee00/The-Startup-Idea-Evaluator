@@ -33,42 +33,40 @@ class _IdeaScreenState extends State<IdeaScreen> {
     return Scaffold(
       backgroundColor: AppTheme.getBackgroundColor(context),
       appBar: CustomAppBar(title: 'Startup Ideas', avatarText: avatarText),
-      body: SafeArea(
-        child: BlocBuilder<IdeaCubit, IdeaState>(
-          buildWhen: (prev, curr) =>
-              prev.runtimeType != curr.runtimeType || prev.ideas != curr.ideas,
-          builder: (context, state) {
-            if (state is LoadingState) {
-              return const Center(child: CircularProgressIndicator());
-            }
+      body: BlocBuilder<IdeaCubit, IdeaState>(
+        buildWhen: (prev, curr) =>
+            prev.runtimeType != curr.runtimeType || prev.ideas != curr.ideas,
+        builder: (context, state) {
+          if (state is LoadingState) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-            if (state is GetStartupIdeasFailureState) {
-              return Center(child: Text(state.errorMessage));
-            }
+          if (state is GetStartupIdeasFailureState) {
+            return Center(child: Text(state.errorMessage));
+          }
 
-            return ListView.builder(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 15,
-                vertical: 10,
-              ).copyWith(bottom: 100),
-              itemCount: state.ideas.length + 1,
+          return ListView.builder(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 15,
+              vertical: 10,
+            ).copyWith(bottom: 100),
+            itemCount: state.ideas.length + 1,
 
-              itemBuilder: (context, index) {
-                if (index == 0) {
-                  return _addIdeaCard(context);
-                }
-                final idea = state.ideas[index - 1];
-                return StartupIdeaCard(
-                  idea: idea,
-                  onVote: () {
-                    context.read<IdeaCubit>().toggleVote(idea.id!);
-                  },
-                  onShare: () {},
-                );
-              },
-            );
-          },
-        ),
+            itemBuilder: (context, index) {
+              if (index == 0) {
+                return _addIdeaCard(context);
+              }
+              final idea = state.ideas[index - 1];
+              return StartupIdeaCard(
+                idea: idea,
+                onVote: () {
+                  context.read<IdeaCubit>().toggleVote(idea.id!);
+                },
+                onShare: () {},
+              );
+            },
+          );
+        },
       ),
     );
   }
