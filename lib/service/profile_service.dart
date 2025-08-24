@@ -14,7 +14,6 @@ class ProfileService {
         params: {'user_uuid': currentUser?.id},
       );
       final profile = ProfileModel.fromMap(response);
-      print(profile);
       return right(profile);
     } on PostgrestException catch (e) {
       return left(Failure(e.message));

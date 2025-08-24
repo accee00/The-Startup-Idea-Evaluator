@@ -1,6 +1,7 @@
 import 'package:ai_voting_app/core/constants/app_text.dart';
 import 'package:ai_voting_app/core/routes/app_routes.dart';
 import 'package:ai_voting_app/core/theme/app_theme.dart';
+import 'package:ai_voting_app/core/utils/share_utils.dart';
 import 'package:ai_voting_app/feature/auth/cubit/auth_cubit.dart';
 import 'package:ai_voting_app/feature/idea/cubit/idea_cubit.dart';
 import 'package:ai_voting_app/feature/idea/widget/add_idea_card.dart';
@@ -62,7 +63,10 @@ class _IdeaScreenState extends State<IdeaScreen> {
                 onVote: () {
                   context.read<IdeaCubit>().toggleVote(idea.id!);
                 },
-                onShare: () {},
+                onShare: () => shareText(
+                  context,
+                  '${idea.title}\n${idea.tagline}\n${idea.description}\n${idea.authorName}',
+                ),
               );
             },
           );

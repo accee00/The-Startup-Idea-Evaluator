@@ -5,7 +5,7 @@ part 'app_event.dart';
 part 'app_state.dart';
 
 class AppBloc extends HydratedBloc<AppEvent, AppState> {
-  AppBloc() : super(const AppInitial(isDarkMode: false)) {
+  AppBloc() : super(const AppInitial(isDarkMode: true)) {
     on<ToggleTheme>((event, emit) {
       emit(ThemeChanged(isDarkMode: !state.isDarkMode));
     });
@@ -13,7 +13,7 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
 
   @override
   AppState? fromJson(Map<String, dynamic> json) {
-    final isDark = json['isDarkMode'] as bool? ?? false;
+    final isDark = json['isDarkMode'] as bool? ?? true;
     return AppInitial(isDarkMode: isDark);
   }
 

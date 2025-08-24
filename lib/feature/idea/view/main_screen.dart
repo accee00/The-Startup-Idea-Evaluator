@@ -69,8 +69,8 @@ class _MainScreenState extends State<MainScreen> {
                     : AppTheme.blueLight,
                 tabMargin: const EdgeInsets.symmetric(horizontal: 4),
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 12,
+                  horizontal: 5,
+                  vertical: 10,
                 ),
                 iconSize: 22,
                 textStyle: TextStyle(

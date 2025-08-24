@@ -38,12 +38,13 @@ class MyApp extends StatelessWidget {
       child: BlocBuilder<AppBloc, AppState>(
         builder: (context, state) {
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             title: 'Startup Idea Evaluator',
             initialRoute: AppRoutes.splash,
             onGenerateRoute: (settings) => AppRoutes.onGenerateRoute(settings),
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
-            themeMode: state.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+            themeMode: state.isDarkMode ? ThemeMode.light : ThemeMode.dark,
           );
         },
       ),

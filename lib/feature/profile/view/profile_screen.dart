@@ -10,7 +10,7 @@ import 'package:ai_voting_app/feature/profile/model/profile_model.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' hide AuthState;
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -29,54 +29,162 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
   }
 
+  void _showLogoutDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: Text(
+            'Logout',
+            style: context.textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: const Text('Are you sure you want to logout?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+                context.read<AuthCubit>().signOut();
+              },
+              style: TextButton.styleFrom(
+                foregroundColor: context.colorScheme.error,
+              ),
+              child: const Text('Logout'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(
-        title: 'Profile',
-        onModeChange: () {
-          context.read<AppBloc>().add(ToggleTheme());
-        },
-      ),
-      body: BlocBuilder<ProfileCubit, ProfileState>(
-        builder: (context, state) {
-          final ProfileModel data = state.userProfile;
-          return SafeArea(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  _buildProfileHeader(context),
-                  const SizedBox(height: 32),
-
-                  _buildStatsList(context, data),
-                  const SizedBox(height: 32),
-
-                  SizedBox(
-                    width: double.infinity,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Your Ideas',
-                          style: context.textTheme.headlineSmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-
-                        data.myIdeas.isEmpty
-                            ? _emptyState(context)
-                            : _buildIdeasList(context, data),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 100),
-                ],
-              ),
-            ),
+    return BlocListener<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state is AuthSignedOut) {
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            AppRoutes.signIn,
+            (_) => false,
           );
-        },
+        }
+      },
+      child: Scaffold(
+        appBar: CustomAppBar(
+          title: 'Profile',
+          onModeChange: () {
+            context.read<AppBloc>().add(ToggleTheme());
+          },
+        ),
+        body: BlocBuilder<ProfileCubit, ProfileState>(
+          builder: (context, state) {
+            final ProfileModel data = state.userProfile;
+            return SafeArea(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    _buildProfileHeader(context),
+                    const SizedBox(height: 24),
+
+                    _buildLogoutButton(context),
+                    const SizedBox(height: 32),
+
+                    _buildStatsList(context, data),
+                    const SizedBox(height: 32),
+
+                    SizedBox(
+                      width: double.infinity,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Your Ideas',
+                            style: context.textTheme.headlineSmall?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+
+                          data.myIdeas.isEmpty
+                              ? _emptyState(context)
+                              : _buildIdeasList(context, data),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 100),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLogoutButton(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: context.colorScheme.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: context.colorScheme.outline.withAlpha(100)),
+      ),
+      child: InkWell(
+        onTap: _showLogoutDialog,
+        borderRadius: BorderRadius.circular(16),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: context.colorScheme.errorContainer,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  Icons.logout,
+                  color: context.colorScheme.error,
+                  size: 24,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Logout',
+                      style: context.textTheme.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.w500,
+                        color: context.colorScheme.onSurface,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      'Sign out of your account',
+                      style: context.textTheme.bodySmall?.copyWith(
+                        color: context.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(
+                Icons.arrow_forward_ios,
+                color: context.colorScheme.onSurfaceVariant,
+                size: 16,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
