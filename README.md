@@ -7,7 +7,8 @@ The Startup Idea Evaluator is a mobile application that allows users to submit t
 - **Frontend:** Flutter  
 - **Backend:** Supabase (PostgreSQL, Auth, Storage)  
 - **State Management:** BLoC / Cubit  
-- **Dependency Injection:** GetIt  
+- **Dependency Injection:** GetIt
+- **Architecture:** MVC (Model View Controller)
  
 
 ## Features Implemented
@@ -17,7 +18,8 @@ The Startup Idea Evaluator is a mobile application that allows users to submit t
 - Vote and unvote on ideas  
 - Top ideas leaderboard  
 - Share ideas via clipboard  
-- Responsive UI for mobile devices  
+- Responsive UI for mobile devices
+- Dark/ Light modes  
 
 ## How to Run Locally
 1. **Clone the repository:**  
