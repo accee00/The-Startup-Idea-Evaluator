@@ -24,6 +24,7 @@ The Startup Idea Evaluator is a mobile application that allows users to submit t
 ## How to Run Locally
 1. **Clone the repository:**  
 ```bash
+to test get .env file from https://www.notion.so/Developer-reference-259699fa5f3b802c8f93cafc0f352e42
 git clone https://github.com/accee00/The-Startup-Idea-Evaluator.git
 cd  StartupIdeaEvaluator
 flutter pub get
