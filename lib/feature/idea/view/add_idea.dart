@@ -97,20 +97,21 @@ class _AddIdeaScreenState extends State<AddIdeaScreen> {
         appBar: const CustomAppBar(title: "Submit Your Idea", showBack: true),
         body: isLoading
             ? const Center(child: CircularProgressIndicator())
-            : SafeArea(
-                minimum: const EdgeInsets.symmetric(
+            : SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(
                   horizontal: 16,
                   vertical: 12,
                 ),
-                child: Form(
-                  key: _formKey,
-                  child: SingleChildScrollView(
+                child: SafeArea(
+                  child: Form(
+                    key: _formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _expContainer(context),
                         _buildTextFeild(
                           context,
+                          maxLine: 1,
                           controller: _ideaController,
                           heading: 'Idea Title',
                           hintText: 'Enter your idea here',
@@ -118,6 +119,7 @@ class _AddIdeaScreenState extends State<AddIdeaScreen> {
                         ),
                         _buildTextFeild(
                           context,
+                          maxLine: 1,
                           controller: _tagLineController,
                           heading: 'Tag Line',
                           hintText: 'Enter your tag line',
@@ -136,6 +138,7 @@ class _AddIdeaScreenState extends State<AddIdeaScreen> {
                         ),
                         const SizedBox(height: 30),
                         _submitButton(context),
+                        const SizedBox(height: 100),
                       ],
                     ),
                   ),
