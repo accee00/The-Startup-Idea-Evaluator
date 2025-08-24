@@ -17,6 +17,16 @@ Future<void> main() async {
   await initDi();
   runApp(const MyApp());
   WidgetsBinding.instance.addPostFrameCallback((_) {
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.dark,
+        systemNavigationBarColor: Colors.transparent,
+        systemNavigationBarDividerColor: Colors.transparent,
+        systemNavigationBarIconBrightness: Brightness.light,
+      ),
+    );
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   });
 }
