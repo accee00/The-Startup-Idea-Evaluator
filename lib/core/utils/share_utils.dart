@@ -7,6 +7,9 @@ void shareText(BuildContext context, String heading) async {
     ShareParams(text: heading, title: 'Check this out'),
   );
 
+  if (!context.mounted) {
+    return;
+  }
   if (result.status == ShareResultStatus.success) {
     showSnackBar(context, 'Text copied to clipboard', SnackBarType.success);
   } else if (result.status == ShareResultStatus.dismissed) {

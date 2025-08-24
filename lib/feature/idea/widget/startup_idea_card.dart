@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:ai_voting_app/core/di/init_di_imports.dart';
 import 'package:ai_voting_app/core/extension%20/build_context_extension.dart';
 import 'package:ai_voting_app/core/theme/app_theme.dart';
